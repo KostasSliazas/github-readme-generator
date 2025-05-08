@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>README Generator</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 800px;
+      margin: auto;
+      padding: 1rem;
+    }
+    label, textarea, input, select {
+      display: block;
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+    textarea {
+      height: 100px;
+    }
+    pre {
+      background: #f4f4f4;
+      padding: 1rem;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <h1>GitHub README Generator</h1>
+
+  <label>Project Name
+    <input type="text" id="projectName">
+  </label>
+
+  <label>Description
+    <textarea id="description"></textarea>
+  </label>
+
+  <label>Features (one per line)
+    <textarea id="features"></textarea>
+  </label>
+
+  <label>Installation Instructions
+    <textarea id="installation"></textarea>
+  </label>
+
+  <label>Usage
+    <textarea id="usage"></textarea>
+  </label>
+
+  <label>Configuration Options
+    <textarea id="configuration"></textarea>
+  </label>
+
+  <label>Build/Compile Instructions
+    <textarea id="build"></textarea>
+  </label>
+
+  <label>Folder Structure (use \\n for new lines)
+    <textarea id="structure"></textarea>
+  </label>
+
+  <label>License Type
+    <select id="licenseType">
+      <option value="">None</option>
+      <option value="MIT">MIT</option>
+      <option value="GPL-3.0">GPL-3.0</option>
+      <option value="Apache-2.0">Apache-2.0</option>
+      <option value="BSD-3">BSD-3</option>
+      <option value="ISC">ISC</option>
+      <option value="CC0-1.0">CC0 1.0 (Public Domain Dedication)</option>
+      <option value="CC-BY-4.0">CC BY 4.0</option>
+      <option value="CC-BY-SA-4.0">CC BY-SA 4.0</option>
+      <option value="MPL-2.0">Mozilla Public License 2.0</option>
+      <option value="Unlicense">Unlicense</option>
+      <option value="EPL-2.0">Eclipse Public License 2.0</option>
+      <option value="PublicDomain">Public Domain</option>
+    </select>
+  </label>
+
+  <label>License File Path (Optional, default: LICENSE)
+    <input type="text" id="licensePath" placeholder="e.g., LICENSE or path/to/license">
+  </label>
+
+  <label>Git Repository URL (for Contributing Instructions)
+    <input type="text" id="repoUrl" placeholder="e.g., https://github.com/username/project">
+  </label>
+
+  <label>Author & Links
+    <input type="text" id="author">
+  </label>
+
+  <button onclick="generateReadme()">Generate README</button>
+  <button onclick="downloadReadme()">Download as README.md</button>
+
+  <h2>Generated README</h2>
+  <pre id="output"></pre>
+
+  <script>
+    function section(title, content, wrapCode = false) {
+      if (!content) return '';
+      const wrapped = wrapCode ? `\`\`\`\n${content}\n\`\`\`` : content;
+      return `\n\n## ${title}\n\n${wrapped}`;
+    }
+
+    function generateReadme() {
+      const project = document.getElementById('projectName').value.trim();
+      const desc = document.getElementById('description').value.trim();
+      const featuresRaw = document.getElementById('features').value.trim();
+      const install = document.getElementById('installation').value.trim();
+      const usage = document.getElementById('usage').value.trim();
+      const config = document.getElementById('configuration').value.trim();
+      const build = document.getElementById('build').value.trim();
+      const structure = document.getElementById('structure').value.trim();
+      const licenseType = document.getElementById('licenseType').value.trim();
+      const licensePath = document.getElementById('licensePath').value.trim() || 'LICENSE';
+      const repoUrl = document.getElementById('repoUrl').value.trim();
+      const author = document.getElementById('author').value.trim();
+
+      const features = featuresRaw ? featuresRaw.split('\n').map(f => `- ${f}`).join('\n') : '';
+
+      let toc = '## 📚 Table of Contents';
+      let content = '';
+
+      if (features) toc += '\n- [Features](#-features)';
+      if (install) toc += '\n- [Installation](#️-installation)';
+      if (usage) toc += '\n- [Usage](#️-usage)';
+      if (config) toc += '\n- [Configuration](#-configuration)';
+      if (build) toc += '\n- [Build](#-build)';
+      if (structure) toc += '\n- [Folder Structure](#-folder-structure)';
+      if (licenseType) toc += '\n- [License](#-license)';
+      if (repoUrl) toc += '\n- [Contributing](#-contributing)';
+      if (author) toc += '\n- [Author](#-author)';
+
+      if (features) content += section('🚀 Features', features);
+      if (install) content += section('🛠️ Installation', install, true);
+      if (usage) content += section('⚙️ Usage', usage);
+      if (config) content += section('🔧 Configuration', config);
+      if (build) content += section('🔨 Build', build, true);
+      if (structure) content += section('📁 Folder Structure', structure, true);
+
+      if (licenseType) {
+        content += section('📄 License', `This project is licensed under the [${licenseType} License](${licensePath}).`);
+      }
+
+      if (repoUrl) {
+        content += section('💬 Contributing', `To contribute to this project, fork this repository, create a new branch, and submit a pull request.\n\nClone the repository with the following command:\n\n\`\`\`bash\ngit clone ${repoUrl}\n\`\`\``);
+      }
+
+      if (author) content += section('👤 Author', author);
+
+      const output = `# ${project}\n\n${desc}\n\n${toc}${content}`;
+      document.getElementById('output').textContent = output;
+    }
+
+    function downloadReadme() {
+      const content = document.getElementById('output').textContent;
+      const blob = new Blob([content], { type: 'text/markdown' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'README.md';
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+  </script>
+</body>
+</html>
