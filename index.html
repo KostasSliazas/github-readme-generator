@@ -4,10 +4,101 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>README Generator</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/picnic">
+  <style>
+
+*,
+*::before,
+*::after {
+  margin: 7px;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font: 16px/1.5 'Arial', sans-serif;
+  color: #333;
+}
+label{  background: #f4f4f9;
+}
+/* Heading Styles */
+h1, h2, h3, h4, h5, h6 {
+  color: #222;
+}
+
+/* Links */
+a {
+  color: #007bff;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+/* Button Style */
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0 1em;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: inherit;
+  line-height: 2;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Form Styles */
+label,input[type="text"],
+input[type="email"],
+textarea {
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  font-size: inherit;
+  display: flex;
+  margin-bottom: .5rem;
+  font-weight: 600;
+  flex-direction: column;
+  place-content: stretch;
+  place-items: center;
+}
+textarea{
+min-width:300px;
+height: 100px;
+}
+input[type="submit"] {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 0.8em 1.5em;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+  background-color: #218838;
+}
+
+  </style>
 </head>
 <body>
-  <h1>GitHub README Generator</h1>
+  <h1>📝 GitHub README Generator</h1>
+
+  <label>GitHub Username
+    <input type="text" id="username" placeholder="e.g. KostasSliazas">
+  </label>
+
+  <label>Repository Name
+    <input type="text" id="repo" placeholder="e.g. project-kitten">
+  </label>
 
   <label>Project Name
     <input type="text" id="projectName">
@@ -37,7 +128,7 @@
     <textarea id="build"></textarea>
   </label>
 
-  <label>Folder Structure (use \\n for new lines)
+  <label>Folder Structure (use \n for new lines)
     <textarea id="structure"></textarea>
   </label>
 
@@ -71,20 +162,43 @@
     <input type="text" id="author">
   </label>
 
-  <button onclick="generateReadme()">Generate README</button>
-  <button onclick="downloadReadme()">Download as README.md</button>
+  <button id="generateReadme">🧪 Generate README</button>
+  <button id="downloadReadme">💾 Download as README.md</button>
+  <button id="copyToClipboard">📋 Copy to Clipboard</button>
 
-  <h2>Generated README</h2>
-  <pre id="output"></pre>
+  <h2>📄 Generated README</h2>
+  <pre id="output">Waiting for input...</pre>
 
-  <script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+
+    // Function to fetch contributors from GitHub API
+    async function fetchContributors(username, repo) {
+      const response = await fetch(`https://api.github.com/repos/${username}/${repo}/contributors`);
+      const contributors = await response.json();
+      if (contributors && Array.isArray(contributors)) {
+        return contributors;
+      }
+      return [];
+    }
+
+    // Function to format code blocks (bash commands)
+    function formatCodeBlock(content) {
+      if (!content) return '';
+      const isShellLike = /^(\$|\s*npm|\s*yarn|\s*pnpm|\s*git)/i.test(content.split('\n')[0]);
+      const lang = isShellLike ? 'bash' : '';
+      return `\`\`\`${lang}\n${content.trim()}\n\`\`\``;
+    }
+
     function section(title, content, wrapCode = false) {
       if (!content) return '';
-      const wrapped = wrapCode ? `\`\`\`\n${content}\n\`\`\`` : content;
+      const wrapped = wrapCode ? formatCodeBlock(content) : content;
       return `\n\n## ${title}\n\n${wrapped}`;
     }
 
-    function generateReadme() {
+    async function generateReadme() {
+      const user = document.getElementById('username').value.trim();
+      const repo = document.getElementById('repo').value.trim();
       const project = document.getElementById('projectName').value.trim();
       const desc = document.getElementById('description').value.trim();
       const featuresRaw = document.getElementById('features').value.trim();
@@ -102,6 +216,12 @@
 
       let toc = '## 📚 Table of Contents';
       let content = '';
+            // Adding badges section at the top
+      const badges = `[![License](https://img.shields.io/github/license/${user}/${repo})](LICENSE)
+[![Stars](https://img.shields.io/github/stars/${user}/${repo}?style=social)](https://github.com/${user}/${repo}/stargazers)
+[![Forks](https://img.shields.io/github/forks/${user}/${repo}?style=social)](https://github.com/${user}/${repo}/forks)
+[![Issues](https://img.shields.io/github/issues/${user}/${repo})](https://github.com/${user}/${repo}/issues)
+[![Last Commit](https://img.shields.io/github/last-commit/${user}/${repo})](https://github.com/${user}/${repo}/commits)`.trim();
 
       if (features) toc += '\n- [Features](#-features)';
       if (install) toc += '\n- [Installation](#️-installation)';
@@ -112,6 +232,8 @@
       if (licenseType) toc += '\n- [License](#-license)';
       if (repoUrl) toc += '\n- [Contributing](#-contributing)';
       if (author) toc += '\n- [Author](#-author)';
+      toc += '\n- [Contributors](#-contributors)';
+      // toc += '\n- [Badges](#-badges)\n';
 
       if (features) content += section('🚀 Features', features);
       if (install) content += section('🛠️ Installation', install, true);
@@ -130,7 +252,24 @@
 
       if (author) content += section('👤 Author', author);
 
-      const output = `# ${project}\n\n${desc}\n\n${toc}${content}`;
+      // Fetch contributors and add them to the README
+      const contributors = await fetchContributors(user, repo);
+      if (contributors.length > 0) {
+        let contributorsTable = `
+## 👥 Contributors
+
+| Username | Profile |
+|----------|---------|`;
+
+        contributors.forEach(contributor => {
+          contributorsTable += `
+| [${contributor.login}](https://github.com/${contributor.login}) | https://github.com/${contributor.login} |`;
+        });
+
+        content += contributorsTable;
+      }
+
+      const output = `# ${project}\n${badges}\n\n${desc}\n\n${toc}${content}`;
       document.getElementById('output').textContent = output;
     }
 
@@ -144,6 +283,22 @@
       link.click();
       URL.revokeObjectURL(url);
     }
-  </script>
+
+    function copyToClipboard() {
+      const text = document.getElementById('output').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Markdown copied to clipboard!");
+      }).catch(err => {
+        alert("Failed to copy markdown: " + err);
+      });
+    }
+
+    // Attach event listeners
+    document.querySelector('#generateReadme').addEventListener('click', generateReadme);
+    document.querySelector('#downloadReadme').addEventListener('click', downloadReadme);
+    document.querySelector('#copyToClipboard').addEventListener('click', copyToClipboard);
+  });
+</script>
+
 </body>
 </html>
