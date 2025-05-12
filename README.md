@@ -30,7 +30,7 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## 👤 Author
 
-AI
+KostasSliazas
 ## 👥 Contributors
 
 | Username | Profile |
