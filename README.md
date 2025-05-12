@@ -28,9 +28,9 @@ A simple, structured tool for generating clean `README.md` files for your GitHub
 
 This project is licensed under the [MIT License](LICENSE).
 
-## 👤 Author
+## 👤 Authors
 
-KostasSliazas
+KostasSliazas , AI
 ## 👥 Contributors
 
 | Username | Profile |
