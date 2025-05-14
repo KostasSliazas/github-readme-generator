@@ -154,10 +154,6 @@ input[type="submit"]:hover {
     <input type="text" id="licensePath" placeholder="e.g., LICENSE or path/to/license">
   </label>
 
-  <label>Git Repository URL (for Contributing Instructions)
-    <input type="text" id="repoUrl" placeholder="e.g., https://github.com/username/project">
-  </label>
-
   <label>Author & Links
     <input type="text" id="author">
   </label>
@@ -209,7 +205,7 @@ input[type="submit"]:hover {
       const structure = document.getElementById('structure').value.trim();
       const licenseType = document.getElementById('licenseType').value.trim();
       const licensePath = document.getElementById('licensePath').value.trim() || 'LICENSE';
-      const repoUrl = document.getElementById('repoUrl').value.trim();
+      const repoUrl = `https://github.com/${user}/${repo}`;
       const author = document.getElementById('author').value.trim();
 
       const features = featuresRaw ? featuresRaw.split('\n').map(f => `- ${f}`).join('\n') : '';
