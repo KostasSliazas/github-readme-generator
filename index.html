@@ -5,268 +5,250 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>README Generator</title>
   <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-*,
-*::before,
-*::after {
-  margin: 7px;
-  padding: 0;
-  box-sizing: border-box;
-}
+    body {
+      font: 16px/1.5 'Arial', sans-serif;
+      color: #333;
+    }
 
-body {
-  font: 16px/1.5 'Arial', sans-serif;
-  color: #333;
-}
-label{  background: #f4f4f9;
-}
-/* Heading Styles */
-h1, h2, h3, h4, h5, h6 {
-  color: #222;
-}
+    .wrapper {
+      padding: 1em;
+    }
 
-/* Links */
-a {
-  color: #007bff;
-  text-decoration: none;
-  transition: all 0.3s ease;
-}
+    h1, h2, h3, h4, h5, h6 {
+      color: #222;
+    }
 
-a:hover {
-  color: #0056b3;
-  text-decoration: underline;
-}
+    label {
+      margin-bottom: 10px;
+    }
 
-/* Button Style */
-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 0 1em;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: inherit;
-  line-height: 2;
-  transition: background-color 0.3s ease;
-}
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
 
-button:hover {
-  background-color: #0056b3;
-}
+    button:hover {
+      background-color: #0056b3;
+    }
 
-/* Form Styles */
-label,input[type="text"],
-input[type="email"],
-textarea {
-  border: 1px solid #ddd;
-  border-radius: 3px;
-  font-size: inherit;
-  display: flex;
-  margin-bottom: .5rem;
-  font-weight: 600;
-  flex-direction: column;
-  place-content: stretch;
-  place-items: center;
-}
-textarea{
-min-width:300px;
-height: 100px;
-}
-input[type="submit"] {
-  background-color: #28a745;
-  color: white;
-  border: none;
-  padding: 0.8em 1.5em;
-  border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
+    input[type="text"], textarea, select {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
 
-input[type="submit"]:hover {
-  background-color: #218838;
-}
+    textarea {
+      min-height: 100px;
+    }
 
+    #output {
+      margin-top: 20px;
+      background-color: #f4f4f9;
+      padding: 20px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+    }
   </style>
 </head>
 <body>
-  <h1>📝 GitHub README Generator</h1>
+  <div class="wrapper">
+    <h1>README Generator</h1>
 
-  <label>GitHub Username
-    <input type="text" id="username" placeholder="e.g. KostasSliazas">
-  </label>
+    <!-- Input Fields for README Information -->
+    <label for="username">GitHub Username</label>
+    <input type="text" id="username" placeholder="Enter your GitHub username">
 
-  <label>Repository Name
-    <input type="text" id="repo" placeholder="e.g. project-kitten">
-  </label>
+    <label for="repo">Repository Name</label>
+    <input type="text" id="repo" placeholder="Enter repository name">
 
-  <label>Project Name
-    <input type="text" id="projectName">
-  </label>
+    <label for="projectName">Project Name</label>
+    <input type="text" id="projectName" placeholder="Enter project name">
 
-  <label>Description
-    <textarea id="description"></textarea>
-  </label>
+    <label for="description">Description</label>
+    <textarea id="description" placeholder="Enter a description of the project"></textarea>
 
-  <label>Features (one per line)
-    <textarea id="features"></textarea>
-  </label>
+    <label for="features">Features (one per line)</label>
+    <textarea id="features" placeholder="Enter the features of the project"></textarea>
 
-  <label>Installation Instructions
-    <textarea id="installation"></textarea>
-  </label>
+    <label for="installation">Installation Instructions</label>
+    <textarea id="installation" placeholder="Enter installation instructions"></textarea>
 
-  <label>Usage
-    <textarea id="usage"></textarea>
-  </label>
+    <label for="usage">Usage Instructions</label>
+    <textarea id="usage" placeholder="Enter usage instructions"></textarea>
 
-  <label>Configuration Options
-    <textarea id="configuration"></textarea>
-  </label>
+    <label for="configuration">Configuration</label>
+    <textarea id="configuration" placeholder="Enter configuration details"></textarea>
 
-  <label>Build/Compile Instructions
-    <textarea id="build"></textarea>
-  </label>
+    <label for="build">Build Instructions</label>
+    <textarea id="build" placeholder="Enter build instructions"></textarea>
 
-  <label>Folder Structure (use \n for new lines)
-    <textarea id="structure"></textarea>
-  </label>
+    <label for="structure">Folder Structure</label>
+    <textarea id="structure" placeholder="Enter folder structure details"></textarea>
 
-  <label>License Type
+    <label for="licenseType">License Type</label>
     <select id="licenseType">
-      <option value="">None</option>
+      <option value="">Select License Type</option>
       <option value="MIT">MIT</option>
-      <option value="GPL-3.0">GPL-3.0</option>
       <option value="Apache-2.0">Apache-2.0</option>
-      <option value="BSD-3">BSD-3</option>
-      <option value="ISC">ISC</option>
-      <option value="CC0-1.0">CC0 1.0 (Public Domain Dedication)</option>
-      <option value="CC-BY-4.0">CC BY 4.0</option>
-      <option value="CC-BY-SA-4.0">CC BY-SA 4.0</option>
-      <option value="MPL-2.0">Mozilla Public License 2.0</option>
-      <option value="Unlicense">Unlicense</option>
-      <option value="EPL-2.0">Eclipse Public License 2.0</option>
-      <option value="PublicDomain">Public Domain</option>
+      <option value="GPL-3.0">GPL-3.0</option>
+      <!-- Add more license types as needed -->
     </select>
-  </label>
 
-  <label>License File Path (Optional, default: LICENSE)
-    <input type="text" id="licensePath" placeholder="e.g., LICENSE or path/to/license">
-  </label>
+    <label for="licensePath">License File Path</label>
+    <input type="text" id="licensePath" placeholder="Enter the path to your license file (optional)">
 
-  <label>Author & Links
-    <input type="text" id="author">
-  </label>
+    <label for="author">Author</label>
+    <input type="text" id="author" placeholder="Enter the author name">
 
-  <button id="generateReadme">🧪 Generate README</button>
-  <button id="downloadReadme">💾 Download as README.md</button>
-  <button id="copyToClipboard">📋 Copy to Clipboard</button>
+    <label>
+    <input type="checkbox" id="includeGitHubBadges" checked>
+    Include GitHub badges (stars, forks, issues, last commit, license)
+    </label>
 
-  <h2>📄 Generated README</h2>
-  <pre id="output">Waiting for input...</pre>
+    <label for="contributors">Contributors (GitHub usernames, comma separated)</label>
+    <input type="text" id="contributors" placeholder="Enter GitHub usernames">
+
+    <button id="generateReadme">Generate README</button>
+    <button id="downloadReadme">Download README.md</button>
+    <button id="copyToClipboard">Copy to Clipboard</button>
+
+    <h2>Generated README</h2>
+    <pre id="output">Waiting for input...</pre>
+  </div>
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
+    const fields = {
+      user: document.getElementById('username'),
+      repo: document.getElementById('repo'),
+      project: document.getElementById('projectName'),
+      desc: document.getElementById('description'),
+      featuresRaw: document.getElementById('features'),
+      install: document.getElementById('installation'),
+      usage: document.getElementById('usage'),
+      config: document.getElementById('configuration'),
+      build: document.getElementById('build'),
+      structure: document.getElementById('structure'),
+      licenseType: document.getElementById('licenseType'),
+      licensePath: document.getElementById('licensePath'),
+      author: document.getElementById('author'),
+      includeGitHubBadges: document.getElementById('includeGitHubBadges'),
+      contributors: document.getElementById('contributors')
+    };
 
-    // Function to fetch contributors from GitHub API
-    async function fetchContributors(username, repo) {
-      const response = await fetch(`https://api.github.com/repos/${username}/${repo}/contributors`);
-      const contributors = await response.json();
-      if (contributors && Array.isArray(contributors)) {
-        return contributors;
-      }
-      return [];
-    }
-
-    // Function to format code blocks (bash commands)
     function formatCodeBlock(content) {
       if (!content) return '';
-      const isShellLike = /^(\$|\s*npm|\s*yarn|\s*pnpm|\s*git)/i.test(content.split('\n')[0]);
-      const lang = isShellLike ? 'bash' : '';
-      return `\`\`\`${lang}\n${content.trim()}\n\`\`\``;
+      return `\`\`\`bash\n${content.trim()}\n\`\`\``;
     }
 
     function section(title, content, wrapCode = false) {
       if (!content) return '';
       const wrapped = wrapCode ? formatCodeBlock(content) : content;
-      return `\n\n## ${title}\n\n${wrapped}`;
+      return `\n## ${title}\n\n${wrapped}`;
+    }
+
+    async function fetchContributors(user, repo) {
+      try {
+        const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contributors`);
+        if (!res.ok) throw new Error('Failed to fetch contributors');
+        const data = await res.json();
+        return data.map(contrib => contrib.login);
+      } catch (err) {
+        console.warn('GitHub contributors fetch error:', err);
+        return [];
+      }
     }
 
     async function generateReadme() {
-      const user = document.getElementById('username').value.trim();
-      const repo = document.getElementById('repo').value.trim();
-      const project = document.getElementById('projectName').value.trim();
-      const desc = document.getElementById('description').value.trim();
-      const featuresRaw = document.getElementById('features').value.trim();
-      const install = document.getElementById('installation').value.trim();
-      const usage = document.getElementById('usage').value.trim();
-      const config = document.getElementById('configuration').value.trim();
-      const build = document.getElementById('build').value.trim();
-      const structure = document.getElementById('structure').value.trim();
-      const licenseType = document.getElementById('licenseType').value.trim();
-      const licensePath = document.getElementById('licensePath').value.trim() || 'LICENSE';
+      const user = fields.user.value.trim();
+      const repo = fields.repo.value.trim();
+      const project = fields.project.value.trim();
+      const desc = fields.desc.value.trim();
+      const featuresRaw = fields.featuresRaw.value.trim();
+      const install = fields.install.value.trim();
+      const usage = fields.usage.value.trim();
+      const config = fields.config.value.trim();
+      const build = fields.build.value.trim();
+      const structure = fields.structure.value.trim();
+      const licenseType = fields.licenseType.value.trim();
+      const licensePath = fields.licensePath.value.trim() || 'LICENSE';
       const repoUrl = `https://github.com/${user}/${repo}`;
-      const author = document.getElementById('author').value.trim();
+      const author = fields.author.value.trim();
+
+      let contributors = [];
+      if (user && repo) {
+        contributors = await fetchContributors(user, repo);
+      } else {
+        const raw = fields.contributors.value.trim();
+        contributors = raw ? raw.split(',').map(c => c.trim()) : [];
+      }
 
       const features = featuresRaw ? featuresRaw.split('\n').map(f => `- ${f}`).join('\n') : '';
 
-      let toc = '## 📚 Table of Contents';
+      let toc = '';
       let content = '';
-            // Adding badges section at the top
-      const badges = `[![License](https://img.shields.io/github/license/${user}/${repo})](LICENSE)
-[![Stars](https://img.shields.io/github/stars/${user}/${repo}?style=social)](https://github.com/${user}/${repo}/stargazers)
-[![Forks](https://img.shields.io/github/forks/${user}/${repo}?style=social)](https://github.com/${user}/${repo}/forks)
-[![Issues](https://img.shields.io/github/issues/${user}/${repo})](https://github.com/${user}/${repo}/issues)
-[![Last Commit](https://img.shields.io/github/last-commit/${user}/${repo})](https://github.com/${user}/${repo}/commits)`.trim();
 
-      if (features) toc += '\n- [Features](#-features)';
-      if (install) toc += '\n- [Installation](#️-installation)';
-      if (usage) toc += '\n- [Usage](#️-usage)';
-      if (config) toc += '\n- [Configuration](#-configuration)';
-      if (build) toc += '\n- [Build](#-build)';
-      if (structure) toc += '\n- [Folder Structure](#-folder-structure)';
-      if (licenseType) toc += '\n- [License](#-license)';
-      if (repoUrl) toc += '\n- [Contributing](#-contributing)';
-      if (author) toc += '\n- [Author](#-author)';
-      toc += '\n- [Contributors](#-contributors)';
-      // toc += '\n- [Badges](#-badges)\n';
+      if (features) toc += `* [Features](#features)\n`;
+      if (install) toc += `* [Installation](#installation)\n`;
+      if (usage) toc += `* [Usage](#usage)\n`;
+      if (config) toc += `* [Configuration](#configuration)\n`;
+      if (build) toc += `* [Build](#build)\n`;
+      if (structure) toc += `* [Folder Structure](#folder-structure)\n`;
+      if (licenseType) toc += `* [License](#license)\n`;
+      if (repoUrl) toc += `* [Contributing](#contributing)\n`;
+      if (contributors.length > 0) toc += `* [Contributors](#contributors)\n`;
+      if (author) toc += `* [Author](#author)\n`;
 
-      if (features) content += section('🚀 Features', features);
-      if (install) content += section('🛠️ Installation', install, true);
-      if (usage) content += section('⚙️ Usage', usage);
-      if (config) content += section('🔧 Configuration', config);
-      if (build) content += section('🔨 Build', build, true);
-      if (structure) content += section('📁 Folder Structure', structure, true);
+      content += `# ${project}\n\n`;
 
-      if (licenseType) {
-        content += section('📄 License', `This project is licensed under the [${licenseType} License](${licensePath}).`);
+      if ((fields.includeGitHubBadges.checked && user && repo)) {
+        if (fields.includeGitHubBadges.checked && user && repo) {
+          content += `[![License](https://img.shields.io/github/license/${user}/${repo})](${licensePath || 'LICENSE'})\n`;
+          content += `[![Stars](https://img.shields.io/github/stars/${user}/${repo}?style=social)](https://github.com/${user}/${repo}/stargazers)\n`;
+          content += `[![Forks](https://img.shields.io/github/forks/${user}/${repo}?style=social)](https://github.com/${user}/${repo}/forks)\n`;
+          content += `[![Issues](https://img.shields.io/github/issues/${user}/${repo})](https://github.com/${user}/${repo}/issues)\n`;
+          content += `[![Last Commit](https://img.shields.io/github/last-commit/${user}/${repo})](https://github.com/${user}/${repo}/commits)\n`;
+        }
+
+        content += '\n';
       }
 
-      if (repoUrl) {
-        content += section('💬 Contributing', `To contribute to this project, fork this repository, create a new branch, and submit a pull request.\n\nClone the repository with the following command:\n\n\`\`\`bash\ngit clone ${repoUrl}\n\`\`\``);
-      }
 
-      if (author) content += section('👤 Author', author);
 
-      // Fetch contributors and add them to the README
-      const contributors = await fetchContributors(user, repo);
+      content += `## Table of Contents\n\n${toc}\n`;
+
+      if (desc) content += section('Description', desc);
+      if (features) content += section('Features', features);
+      if (install) content += section('Installation', install, true);
+      if (usage) content += section('Usage', usage);
+      if (config) content += section('Configuration', config);
+      if (build) content += section('Build', build, true);
+      if (structure) content += section('Folder Structure', structure, true);
+      if (licenseType) content += section('License', `This project is licensed under the [${licenseType} License](${licensePath}).`);
+      if (repoUrl) content += section('Contributing', `To contribute, please fork this repository, create a new branch, and submit a pull request.\n\nClone:\n\`\`\`bash\ngit clone ${repoUrl}\n\`\`\``);
+
       if (contributors.length > 0) {
-        let contributorsTable = `
-## 👥 Contributors
-
-| Username | Profile |
-|----------|---------|`;
-
+        content += `\n## Contributors\n\n`;
         contributors.forEach(contributor => {
-          contributorsTable += `
-| [${contributor.login}](https://github.com/${contributor.login}) | https://github.com/${contributor.login} |`;
+          content += `- [@${contributor}](https://github.com/${contributor})\n`;
         });
-
-        content += contributorsTable;
       }
 
-      const output = `# ${project}\n${badges}\n\n${desc}\n\n${toc}${content}`;
-      document.getElementById('output').textContent = output;
+      if (author) content += section('Author', author);
+      document.getElementById('output').textContent = content;
     }
 
     function downloadReadme() {
@@ -282,19 +264,17 @@ input[type="submit"]:hover {
 
     function copyToClipboard() {
       const text = document.getElementById('output').textContent;
-      navigator.clipboard.writeText(text).then(() => {
-        alert("Markdown copied to clipboard!");
-      }).catch(err => {
-        alert("Failed to copy markdown: " + err);
-      });
+      navigator.clipboard.writeText(text)
+        .then(() => alert('Copied to clipboard!'))
+        .catch(err => alert('Failed to copy text: ' + err));
     }
 
-    // Attach event listeners
     document.querySelector('#generateReadme').addEventListener('click', generateReadme);
     document.querySelector('#downloadReadme').addEventListener('click', downloadReadme);
     document.querySelector('#copyToClipboard').addEventListener('click', copyToClipboard);
   });
 </script>
+
 
 </body>
 </html>
