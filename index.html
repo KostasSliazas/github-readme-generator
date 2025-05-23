@@ -5,61 +5,139 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>README Generator</title>
   <style>
-    *, *::before, *::after {
+    /* CSS Variables for Theming */
+    :root {
+      --bg-color: #e0e9f2;
+      --text-color: #2b343d;
+      --link-color: #007acc;
+      --button-bg: #777;
+      --button-hover-bg: #005fa3;
+      --button-text: #eff;
+      --input-focus-border: #007acc;
+      --grid-line: rgba(149, 149, 149, .3);
+      --spacing: 1.5em; /* Define a consistent spacing unit */
+    }
+
+    /* Custom Font Import */
+    @font-face {
+      font-family: 'KittenCorner';
+      src: url('https://raw.githubusercontent.com/KostasSliazas/project-kitten/main/font/kitten-corner.woff2') format('woff2'),
+           url('https://raw.githubusercontent.com/KostasSliazas/project-kitten/main/font/kitten-corner.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    /* Universal Reset */
+    * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
+    /* Body Styling */
     body {
-      font: 16px/1.5 'Arial', sans-serif;
-      color: #333;
+      font: 16px/1.5 'KittenCorner', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      background: repeating-linear-gradient(
+        rgba(0, 0, 0, 0) 0px,
+        rgba(0, 0, 0, 0) 23px,
+        var(--grid-line) 23px,
+        var(--grid-line) 24px
+      );
+      overflow-x: hidden;
     }
 
-    .wrapper {
-      padding: 1em;
+    /* Base Typography and Spacing */
+    h1, h2, h3, h4, h5, h6, p, label, select, form, input {
+      color: inherit; /* Inherit text color from body */
+      font-size: 1em; /* Ensure consistent base font size */
+      line-height: 1.5; /* Consistent line height */
+      margin-bottom: var(--spacing); /* Consistent vertical rhythm */
+      margin-left: var(--spacing);
+      margin-right: var(--spacing);
     }
 
-    h1, h2, h3, h4, h5, h6 {
-      color: #222;
+    h1, h2 {
+      font-weight: 700;
     }
 
-    label {
-      margin-bottom: 10px;
+    /* Links */
+    a {
+      color: var(--link-color);
+      text-decoration: none;
+      margin-left: var(--spacing);
+      margin-right: var(--spacing);
+      display: inline-block; /* Helps with margin application if needed */
+      margin-bottom: var(--spacing); /* Consistent with other elements */
     }
 
-    button {
-      background-color: #007bff;
-      color: white;
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* Container */
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 var(--spacing); /* Add padding to prevent content touching edges */
+    }
+
+    /* Buttons and Form Elements Base Styles */
+    button, .btn, select, input[type="text"], input[type="submit"], textarea {
+      /* Shared styles for form controls and buttons */
+      outline: none; /* Removed default outline, replaced by focus state */
+      padding: 0 var(--spacing);
+      background-color: var(--button-bg);
+      color: var(--button-text);
       border: none;
-      padding: 10px 15px;
-      border-radius: 4px;
+      appearance: none; /* Reset default browser styles for consistency */
+      box-shadow: 0 0 0 .5px var(--button-bg); /* Subtle border effect */
       cursor: pointer;
-      font-size: 16px;
+      min-width: 5em;
+      border-radius: 3px;
+      line-height: 3; /* Creates a comfortable height for buttons/inputs */
+      font-size: inherit;
+      vertical-align: baseline;
+      transition: background 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+      margin-bottom: var(--spacing); /* Consistent vertical spacing */
+      margin-left: var(--spacing);
+      margin-right: var(--spacing);
     }
 
-    button:hover {
-      background-color: #0056b3;
+    /* Button specific hover styles */
+    button:hover, .btn:hover {
+      background-color: var(--button-hover-bg);
     }
 
+    /* Form specific styles for inputs, textareas, selects */
     input[type="text"], textarea, select {
-      width: 100%;
-      padding: 10px;
-      margin: 5px 0;
-      border: 1px solid #ccc;
-      border-radius: 4px;
+      display: block; /* Make them block-level for full width by default */
+      background: var(--bg-color); /* Match background of body */
+      color: var(--text-color); /* Inherit text color */
+      box-shadow: inset 0 0 0 .5px var(--text-color); /* Subtle inner border */
+      line-height: 2; /* Adjust line height for inputs to be less than buttons */
+      padding: .5em var(--spacing); /* Adjusted padding for input fields */
+    }
+
+    /* Focus states for accessibility */
+    input:focus, textarea:focus, select:focus, button:focus, .btn:focus {
+      box-shadow: 0 0 0 2px var(--input-focus-border); /* Clear focus indicator */
     }
 
     textarea {
-      min-height: 100px;
+      min-height: 3em; /* Ensure textarea has a reasonable starting height */
+      resize: vertical; /* Allow vertical resizing only */
     }
 
-    #output {
-      margin-top: 20px;
-      background-color: #f4f4f9;
-      padding: 20px;
-      border-radius: 4px;
-      font-family: 'Courier New', monospace;
+    /* Utility classes */
+    .text-center {
+      text-align: center;
+    }
+
+    /* Helper for vertical margin top (e.g., for section breaks) */
+    .mt-4 {
+      margin-top: var(--spacing); /* Adjust as needed, e.g., 2*var(--spacing) for larger gap */
     }
   </style>
 </head>
