@@ -16,6 +16,8 @@
       --input-focus-border: #007acc;
       --grid-line: rgba(149, 149, 149, .3);
       --spacing: 1.5em; /* Define a consistent spacing unit */
+      --spacing-half: 0.75em;
+      --spacing-double: 3em;
     }
 
     /* Custom Font Import */
@@ -46,88 +48,124 @@
         var(--grid-line) 24px
       );
       overflow-x: hidden;
+      padding: var(--spacing); /* Apply consistent padding to the whole body content */
     }
 
     /* Base Typography and Spacing */
-    h1, h2, h3, h4, h5, h6, p, label, select, form, input {
-      color: inherit; /* Inherit text color from body */
-      font-size: 1em; /* Ensure consistent base font size */
-      line-height: 1.5; /* Consistent line height */
-      margin-bottom: var(--spacing); /* Consistent vertical rhythm */
-      margin-left: var(--spacing);
-      margin-right: var(--spacing);
+    /* Removed horizontal margins from this general selector */
+    h1, h2, h3, h4, h5, h6, p, label, select, form, input[type="text"], input[type="submit"], textarea {
+      color: inherit;
+      font-size: 1em;
+      line-height: 1.5;
+      margin-bottom: var(--spacing);
     }
 
     h1, h2 {
       font-weight: 700;
+      margin-top: var(--spacing-double); /* Add more space above H1/H2 for section breaks */
     }
+    h1:first-of-type, h2:first-of-type {
+        margin-top: var(--spacing); /* Less space for the very first heading */
+    }
+
 
     /* Links */
     a {
       color: var(--link-color);
       text-decoration: none;
-      margin-left: var(--spacing);
-      margin-right: var(--spacing);
-      display: inline-block; /* Helps with margin application if needed */
-      margin-bottom: var(--spacing); /* Consistent with other elements */
+      display: inline-block;
+      margin-bottom: var(--spacing);
     }
 
     a:hover {
       text-decoration: underline;
     }
 
-    /* Container */
-    .container {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 0 var(--spacing); /* Add padding to prevent content touching edges */
+    /* Container for centered content */
+    .wrapper {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 0 var(--spacing); /* Ensure content has padding from edges */
     }
 
     /* Buttons and Form Elements Base Styles */
-    button, .btn, select, input[type="text"], input[type="submit"], textarea {
-      /* Shared styles for form controls and buttons */
-      outline: none; /* Removed default outline, replaced by focus state */
-      padding: 0 var(--spacing);
+    button, .btn, input[type="submit"] { /* Explicitly target submit as a button */
+      outline: none;
       background-color: var(--button-bg);
       color: var(--button-text);
       border: none;
-      appearance: none; /* Reset default browser styles for consistency */
-      box-shadow: 0 0 0 .5px var(--button-bg); /* Subtle border effect */
+      appearance: none;
+      box-shadow: 0 0 0 .5px var(--button-bg);
       cursor: pointer;
       min-width: 5em;
       border-radius: 3px;
-      line-height: 3; /* Creates a comfortable height for buttons/inputs */
+      line-height: 1; /* Reset line-height for better padding control */
+      padding: 1em var(--spacing); /* Adjusted padding for button height */
       font-size: inherit;
       vertical-align: baseline;
       transition: background 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-      margin-bottom: var(--spacing); /* Consistent vertical spacing */
-      margin-left: var(--spacing);
-      margin-right: var(--spacing);
+      margin-bottom: var(--spacing);
     }
 
     /* Button specific hover styles */
-    button:hover, .btn:hover {
+    button:hover, .btn:hover, input[type="submit"]:hover {
       background-color: var(--button-hover-bg);
     }
 
     /* Form specific styles for inputs, textareas, selects */
     input[type="text"], textarea, select {
-      display: block; /* Make them block-level for full width by default */
-      background: var(--bg-color); /* Match background of body */
-      color: var(--text-color); /* Inherit text color */
-      box-shadow: inset 0 0 0 .5px var(--text-color); /* Subtle inner border */
-      line-height: 2; /* Adjust line height for inputs to be less than buttons */
-      padding: .5em var(--spacing); /* Adjusted padding for input fields */
+      display: block;
+      width: 100%; /* Make them take full width */
+      background: var(--bg-color);
+      color: var(--text-color);
+      box-shadow: inset 0 0 0 1px var(--text-color); /* Slightly thicker inner border */
+      line-height: 1.5; /* Standard line height for text input */
+      padding: var(--spacing-half) var(--spacing); /* Adjusted padding for input fields */
+      border-radius: 3px; /* Match button border-radius */
     }
 
     /* Focus states for accessibility */
     input:focus, textarea:focus, select:focus, button:focus, .btn:focus {
       box-shadow: 0 0 0 2px var(--input-focus-border); /* Clear focus indicator */
+      border-color: var(--input-focus-border); /* Also change border color for clarity */
     }
 
     textarea {
-      min-height: 3em; /* Ensure textarea has a reasonable starting height */
-      resize: vertical; /* Allow vertical resizing only */
+      min-height: 5em; /* Increase min-height for text areas */
+      resize: vertical;
+    }
+
+    /* Checkbox specific styling */
+    input[type="checkbox"] {
+        display: inline-block;
+        width: auto; /* Override width: 100% from general input rule */
+        margin-right: 0.5em; /* Space between checkbox and label text */
+        vertical-align: middle; /* Align with text */
+        box-shadow: none; /* Remove box-shadow */
+        min-height: auto;
+        line-height: normal;
+        padding: 0; /* Remove padding */
+    }
+    label[for="includeGitHubBadges"] { /* Adjust margin for checkbox label */
+        display: flex; /* Use flex to align checkbox and text */
+        align-items: center; /* Vertically center */
+        margin-bottom: var(--spacing);
+    }
+
+    /* Generated README output preformatted text */
+    #output {
+      background-color: #f6f8fa; /* Light grey background */
+      border: 1px solid #dcdcdc;
+      padding: var(--spacing);
+      overflow-x: auto; /* Enable horizontal scrolling for long lines */
+      white-space: pre-wrap; /* Preserve whitespace and wrap long lines */
+      word-wrap: break-word; /* Break long words */
+      font-family: 'Courier New', Courier, monospace; /* Monospaced font for code */
+      color: #333;
+      border-radius: 4px;
+      min-height: 15em; /* Ensure it's visible even when empty */
+      margin-left: 0; /* Override general element margin-left */
+      margin-right: 0; /* Override general element margin-right */
     }
 
     /* Utility classes */
@@ -136,8 +174,8 @@
     }
 
     /* Helper for vertical margin top (e.g., for section breaks) */
-    .mt-4 {
-      margin-top: var(--spacing); /* Adjust as needed, e.g., 2*var(--spacing) for larger gap */
+    .mt-4 { /* Consider renaming to mt-spacing-double or mt-large */
+      margin-top: var(--spacing-double);
     }
   </style>
 </head>
@@ -145,7 +183,6 @@
   <div class="wrapper">
     <h1>README Generator</h1>
 
-    <!-- Input Fields for README Information -->
     <label for="username">GitHub Username</label>
     <input type="text" id="username" placeholder="Enter your GitHub username">
 
@@ -182,8 +219,7 @@
       <option value="MIT">MIT</option>
       <option value="Apache-2.0">Apache-2.0</option>
       <option value="GPL-3.0">GPL-3.0</option>
-      <!-- Add more license types as needed -->
-    </select>
+      </select>
 
     <label for="licensePath">License File Path</label>
     <input type="text" id="licensePath" placeholder="Enter the path to your license file (optional)">
@@ -191,9 +227,9 @@
     <label for="author">Author</label>
     <input type="text" id="author" placeholder="Enter the author name">
 
-    <label>
-    <input type="checkbox" id="includeGitHubBadges" checked>
-    Include GitHub badges (stars, forks, issues, last commit, license)
+    <label for="includeGitHubBadges">
+        <input type="checkbox" id="includeGitHubBadges" checked>
+        Include GitHub badges (stars, forks, issues, last commit, license)
     </label>
 
     <label for="contributors">Contributors (GitHub usernames, comma separated)</label>
@@ -227,29 +263,39 @@
       contributors: document.getElementById('contributors')
     };
 
-    function formatCodeBlock(content) {
+    // Helper to format content as a code block
+    function formatCodeBlock(content, lang = 'bash') {
       if (!content) return '';
-      return `\`\`\`bash\n${content.trim()}\n\`\`\``;
+      return `\`\`\`${lang}\n${content.trim()}\n\`\`\``;
     }
 
-    function section(title, content, wrapCode = false) {
+    // Helper to create a section with a heading and content
+    function section(title, content, wrapCode = false, lang = 'bash') {
       if (!content) return '';
-      const wrapped = wrapCode ? formatCodeBlock(content) : content;
+      const wrapped = wrapCode ? formatCodeBlock(content, lang) : content;
       return `\n## ${title}\n\n${wrapped}`;
     }
 
+    // Function to fetch contributors from GitHub API
     async function fetchContributors(user, repo) {
+      if (!user || !repo) return [];
       try {
         const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contributors`);
-        if (!res.ok) throw new Error('Failed to fetch contributors');
+        if (!res.ok) {
+          // If not OK (e.g., 404, 403 rate limit), log and return empty array
+          console.warn(`Failed to fetch contributors for ${user}/${repo}: ${res.status} ${res.statusText}`);
+          return [];
+        }
         const data = await res.json();
+        // Filter out bots or specific users if needed, for now just map login
         return data.map(contrib => contrib.login);
       } catch (err) {
-        console.warn('GitHub contributors fetch error:', err);
+        console.error('Error fetching GitHub contributors:', err);
         return [];
       }
     }
 
+    // Main function to generate the README Markdown
     async function generateReadme() {
       const user = fields.user.value.trim();
       const repo = fields.repo.value.trim();
@@ -262,23 +308,31 @@
       const build = fields.build.value.trim();
       const structure = fields.structure.value.trim();
       const licenseType = fields.licenseType.value.trim();
+      // Default licensePath to 'LICENSE' if not provided
       const licensePath = fields.licensePath.value.trim() || 'LICENSE';
       const repoUrl = `https://github.com/${user}/${repo}`;
       const author = fields.author.value.trim();
 
       let contributors = [];
+      // Prefer fetching contributors from GitHub if user and repo are provided
       if (user && repo) {
         contributors = await fetchContributors(user, repo);
-      } else {
+      }
+      // If fetching fails or not applicable, use manually entered contributors
+      if (contributors.length === 0) {
         const raw = fields.contributors.value.trim();
         contributors = raw ? raw.split(',').map(c => c.trim()) : [];
       }
 
+      // Format features as a list
       const features = featuresRaw ? featuresRaw.split('\n').map(f => `- ${f}`).join('\n') : '';
 
-      let toc = '';
-      let content = '';
+      let toc = ''; // Table of Contents
+      let readmeContent = ''; // Main README content
 
+      // --- Build Table of Contents ---
+      // Dynamically add sections to ToC based on input availability
+      if (desc) toc += `* [Description](#description)\n`; // Add description to ToC
       if (features) toc += `* [Features](#features)\n`;
       if (install) toc += `* [Installation](#installation)\n`;
       if (usage) toc += `* [Usage](#usage)\n`;
@@ -286,70 +340,109 @@
       if (build) toc += `* [Build](#build)\n`;
       if (structure) toc += `* [Folder Structure](#folder-structure)\n`;
       if (licenseType) toc += `* [License](#license)\n`;
-      if (repoUrl) toc += `* [Contributing](#contributing)\n`;
+      // Always include Contributing if repoUrl exists, as it's common practice
+      if (user && repo) toc += `* [Contributing](#contributing)\n`;
       if (contributors.length > 0) toc += `* [Contributors](#contributors)\n`;
       if (author) toc += `* [Author](#author)\n`;
 
-      content += `# ${project}\n\n`;
 
-      if ((fields.includeGitHubBadges.checked && user && repo)) {
-        if (fields.includeGitHubBadges.checked && user && repo) {
-          content += `[![License](https://img.shields.io/github/license/${user}/${repo})](${licensePath || 'LICENSE'})\n`;
-          content += `[![Stars](https://img.shields.io/github/stars/${user}/${repo}?style=social)](https://github.com/${user}/${repo}/stargazers)\n`;
-          content += `[![Forks](https://img.shields.io/github/forks/${user}/${repo}?style=social)](https://github.com/${user}/${repo}/forks)\n`;
-          content += `[![Issues](https://img.shields.io/github/issues/${user}/${repo})](https://github.com/${user}/${repo}/issues)\n`;
-          content += `[![Last Commit](https://img.shields.io/github/last-commit/${user}/${repo})](https://github.com/${user}/${repo}/commits)\n`;
-        }
+      // --- Build Main README Content ---
 
-        content += '\n';
+      // Project Title
+      readmeContent += `# ${project || 'My Awesome Project'}\n\n`; // Default title if not provided
+
+      // GitHub Badges (conditionally added)
+      if (fields.includeGitHubBadges.checked && user && repo) {
+        readmeContent += `[![License](https://img.shields.io/github/license/${user}/${repo})](${licensePath})\n`;
+        readmeContent += `[![Stars](https://img.shields.io/github/stars/${user}/${repo}?style=social)](https://github.com/${user}/${repo}/stargazers)\n`;
+        readmeContent += `[![Forks](https://img.shields.io/github/forks/${user}/${repo}?style=social)](https://github.com/${user}/${repo}/forks)\n`;
+        readmeContent += `[![Issues](https://img.shields.io/github/issues/${user}/${repo})](https://github.com/${user}/${repo}/issues)\n`;
+        readmeContent += `[![Last Commit](https://img.shields.io/github/last-commit/${user}/${repo})](https://github.com/${user}/${repo}/commits)\n`;
+        readmeContent += '\n'; // Add a blank line after badges
       }
 
+      // Table of Contents Section
+      if (toc) { // Only add ToC if it has entries
+        readmeContent += `## Table of Contents\n\n${toc}\n`;
+      }
 
+      // Main Content Sections
+      readmeContent += section('Description', desc);
+      readmeContent += section('Features', features);
+      readmeContent += section('Installation', install, true); // Wrap in code block
+      readmeContent += section('Usage', usage);
+      readmeContent += section('Configuration', config);
+      readmeContent += section('Build', build, true); // Wrap in code block
+      readmeContent += section('Folder Structure', structure, true); // Wrap in code block
 
-      content += `## Table of Contents\n\n${toc}\n`;
+      // License Section
+      if (licenseType) {
+        readmeContent += section('License', `This project is licensed under the [${licenseType} License](${repoUrl}/blob/HEAD/${licensePath}).`);
+      }
 
-      if (desc) content += section('Description', desc);
-      if (features) content += section('Features', features);
-      if (install) content += section('Installation', install, true);
-      if (usage) content += section('Usage', usage);
-      if (config) content += section('Configuration', config);
-      if (build) content += section('Build', build, true);
-      if (structure) content += section('Folder Structure', structure, true);
-      if (licenseType) content += section('License', `This project is licensed under the [${licenseType} License](${licensePath}).`);
-      if (repoUrl) content += section('Contributing', `To contribute, please fork this repository, create a new branch, and submit a pull request.\n\nClone:\n\`\`\`bash\ngit clone ${repoUrl}\n\`\`\``);
+      // Contributing Section
+      if (user && repo) {
+        readmeContent += section('Contributing', `To contribute, please fork this repository, create a new branch, and submit a pull request.\n\nClone the repository:\n${formatCodeBlock(`git clone ${repoUrl}`)}\n\n`);
+      }
 
+      // Contributors Section
       if (contributors.length > 0) {
-        content += `\n## Contributors\n\n`;
+        readmeContent += `\n## Contributors\n\n`;
         contributors.forEach(contributor => {
-          content += `- [@${contributor}](https://github.com/${contributor})\n`;
+          readmeContent += `- [@${contributor}](https://github.com/${contributor})\n`;
         });
       }
 
-      if (author) content += section('Author', author);
-      document.getElementById('output').textContent = content;
+      // Author Section
+      readmeContent += section('Author', author);
+
+      // Display the generated Markdown
+      document.getElementById('output').textContent = readmeContent;
     }
 
+    // Function to download the generated README as a .md file
     function downloadReadme() {
       const content = document.getElementById('output').textContent;
+      if (!content || content.trim() === 'Waiting for input...') {
+        alert('Please generate the README first!');
+        return;
+      }
       const blob = new Blob([content], { type: 'text/markdown' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
       link.download = 'README.md';
+      document.body.appendChild(link); // Append to body to make it clickable
       link.click();
+      document.body.removeChild(link); // Clean up
       URL.revokeObjectURL(url);
     }
 
+    // Function to copy the generated README to clipboard
     function copyToClipboard() {
       const text = document.getElementById('output').textContent;
+      if (!text || text.trim() === 'Waiting for input...') {
+        alert('Please generate the README first!');
+        return;
+      }
       navigator.clipboard.writeText(text)
-        .then(() => alert('Copied to clipboard!'))
-        .catch(err => alert('Failed to copy text: ' + err));
+        .then(() => {
+          alert('Copied to clipboard!');
+          // Optional: Add a temporary visual feedback to the user
+        })
+        .catch(err => {
+          console.error('Failed to copy text: ', err);
+          alert('Failed to copy text. Please try manually.');
+        });
     }
 
+    // Event Listeners
     document.querySelector('#generateReadme').addEventListener('click', generateReadme);
     document.querySelector('#downloadReadme').addEventListener('click', downloadReadme);
     document.querySelector('#copyToClipboard').addEventListener('click', copyToClipboard);
+
+    // Initial generation on load if any fields are pre-filled (e.g., from browser restore)
+    generateReadme();
   });
 </script>
 
