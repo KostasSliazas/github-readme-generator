@@ -7,31 +7,31 @@
 
 A simple, structured tool for generating clean `README.md` files for your GitHub projects using standard best practices.
 
-## 📚 Table of Contents
+## Table of Contents
 - [Features](#-features)
 - [License](#-license)
 - [Author](#-author)
 - [Contributors](#-contributors)
 
-## 🚀 Features
+## Features
 
-- - One-click README generation  
-- - Markdown export  
-- - Contributor support  
-- - GitHub badges  
-- - Copy-paste friendly formatting  
-- - Supports folder structure outlines  
-- - License file path options  
-- - Easily extendable
+- One-click README generation  
+- Markdown export  
+- Contributor support  
+- GitHub badges  
+- Copy-paste friendly formatting  
+- Supports folder structure outlines  
+- License file path options  
+- Easily extendable
 
-## 📄 License
+## License
 
 This project is licensed under the [MIT License](LICENSE).
 
-## 👤 Authors
+## Authors
 
 KostasSliazas , AI
-## 👥 Contributors
+## Contributors
 
 | Username | Profile |
 |----------|---------|
